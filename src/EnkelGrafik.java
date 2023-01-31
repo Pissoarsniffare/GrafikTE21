@@ -14,7 +14,6 @@ public class EnkelGrafik extends Canvas {
 
     public void paint(Graphics g) {
         draw(g);
-        repaint();
     }
 
     public void draw(Graphics g) {
