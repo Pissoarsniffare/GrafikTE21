@@ -1,6 +1,14 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Grafik extends Canvas implements Runnable{
     private BufferStrategy bs;
@@ -11,10 +19,24 @@ public class Grafik extends Canvas implements Runnable{
     private int sunX = -20;
     private int sunVX = 5;
 
+    private BufferedImage mario;
+    private int marioX = 100;
+    private int marioY = 100;
+    private int marioVX = 0;
+    private int marioVY = 0;
+
     public Grafik() {
+        try {
+            mario = ImageIO.read(new File("supermario.png"));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setSize(600,400);
         JFrame frame = new JFrame();
         frame.add(this);
+        frame.addKeyListener(new MyKeyListener());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -28,7 +50,7 @@ public class Grafik extends Canvas implements Runnable{
         }
         Graphics g = bs.getDrawGraphics();
 
-        // Rita u,t den nya bilden
+        // Rita ut den nya bilden
         draw(g);
 
         g.dispose();
@@ -40,6 +62,7 @@ public class Grafik extends Canvas implements Runnable{
         drawSun(sunX, g);
         drawHouse(new Color(0xff0000),100,100,g);
         drawTree(400,250,g);
+        g.drawImage(mario, marioX, marioY, mario.getWidth()/4, mario.getHeight()/4, null);
     }
 
     public void drawSun(int x, Graphics g) {
@@ -127,15 +150,57 @@ public class Grafik extends Canvas implements Runnable{
     }
 
     private void update() {
+        marioX += marioVX;
+        marioY += marioVY;
+
         sunX = sunX + sunVX;
+
         if (sunX > getWidth()) {
             sunVX = -5;
         }
         if (sunX < -20) {
             sunVX = 5;
         }
-
     }
 
+    public class MyKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyChar() == 'a') {
+                marioVX = -3;
+            }
+            if (e.getKeyChar() == 'd') {
+                marioVX = 3;
+            }
+            if (e.getKeyChar() == 'w') {
+                marioVY = -3;
+            }
+            if (e.getKeyChar() == 's') {
+                marioVY = 3;
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            if (e.getKeyChar() == 'a') {
+                marioVX = 0;
+            }
+            if (e.getKeyChar() == 'd') {
+                marioVX = 0;
+            }
+            if (e.getKeyChar() == 'w') {
+                marioVY = 0;
+            }
+            if (e.getKeyChar() == 's') {
+                marioVY = 0;
+            }
+        }
+    }
 }
 
