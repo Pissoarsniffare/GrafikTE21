@@ -1,29 +1,19 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 
-public class GrafikMedCollision extends Canvas implements Runnable{
+public class Template extends Canvas implements Runnable{
     private BufferStrategy bs;
 
     private boolean running = false;
     private Thread thread;
 
-    private int x = 0;
-    private int y = 0;
-    private Rectangle hitbox = new Rectangle(x,y,30,30);
-
-    private int targetX = (int) (Math.random()*560);
-    private int targetY = (int) (Math.random()*360);
-    private Rectangle target = new Rectangle(targetX, targetY, 40,40);
-    private Color targetColor = Color.green;
-
-    public GrafikMedCollision() {
+    public Template() {
         setSize(600,400);
         JFrame frame = new JFrame();
         frame.add(this);
+        frame.addKeyListener(new MyKeyListener());
         this.addMouseMotionListener(new MyMouseMotionListener());
         this.addMouseListener(new MyMouseListener());
         requestFocus();
@@ -49,21 +39,13 @@ public class GrafikMedCollision extends Canvas implements Runnable{
 
     public void draw(Graphics g) {
         g.clearRect(0,0,getWidth(),getHeight());
-        g.setColor(targetColor);
-        g.fillRect(target.x, target.y, target.width, target.height);
-        g.setColor(new Color(0xBE5817));
-        g.fillOval(hitbox.x,hitbox.y,hitbox.width,hitbox.height);
     }
 
     private void update() {
-        if (target.intersects(hitbox)) {
-            target.x = (int) (Math.random()*560);
-            target.y = (int) (Math.random()*360);
-        }
     }
 
     public static void main(String[] args) {
-        GrafikMedCollision minGrafik = new GrafikMedCollision();
+        Template minGrafik = new Template();
         minGrafik.start();
     }
 
@@ -72,6 +54,7 @@ public class GrafikMedCollision extends Canvas implements Runnable{
         thread = new Thread(this);
         thread.start();
     }
+
     public synchronized void stop() {
         running = false;
         try {
@@ -106,14 +89,10 @@ public class GrafikMedCollision extends Canvas implements Runnable{
 
         @Override
         public void mouseDragged(MouseEvent e) {
-
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-            hitbox.x = e.getX();
-            hitbox.y = e.getY();
-
         }
     }
 
@@ -121,28 +100,37 @@ public class GrafikMedCollision extends Canvas implements Runnable{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
         }
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            targetColor = Color.green;
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            targetColor = Color.red;
+        }
+    }
+
+    public class MyKeyListener implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
         }
     }
 }
-
