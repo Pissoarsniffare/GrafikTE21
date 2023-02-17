@@ -3,14 +3,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 
-public class episkkod extends Canvas implements Runnable{
+public class episkkod extends Canvas implements Runnable {
     private BufferStrategy bs;
 
     private boolean running = false;
     private Thread thread;
 
+    private int paddelX = 250;
+    private int paddelY = 350;
+
+    private int paddelVX = 0;
+
     public episkkod() {
-        setSize(600,400);
+        setSize(600, 400);
         JFrame frame = new JFrame();
         frame.add(this);
         frame.addKeyListener(new MyKeyListener());
@@ -38,11 +43,19 @@ public class episkkod extends Canvas implements Runnable{
     }
 
     public void draw(Graphics g) {
-        g.clearRect(0,0,getWidth(),getHeight());
+        g.clearRect(0, 0, getWidth(), getHeight());
+        g.setColor(Color.BLUE);
+        g.fillRect(paddelX, paddelY, 80, 10);
+        g.setColor(Color.RED);
+        g.fillOval(280,330,20,20);
     }
 
+
     private void update() {
+        paddelX += paddelVX;
+
     }
+
 
     public static void main(String[] args) {
         episkkod minGrafik = new episkkod();
@@ -74,7 +87,7 @@ public class episkkod extends Canvas implements Runnable{
             delta += (now - lastTime) / ns;
             lastTime = now;
 
-            while(delta >= 1) {
+            while (delta >= 1) {
                 // Uppdatera koordinaterna
                 update();
                 // Rita ut bilden med updaterad data
@@ -127,10 +140,18 @@ public class episkkod extends Canvas implements Runnable{
 
         @Override
         public void keyPressed(KeyEvent e) {
+            if (e.getKeyChar() == 'd') {
+                paddelVX = 5;
+
+            }
+            if (e.getKeyChar() == 'a') {
+                paddelVX = -5;
+            }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
+            paddelVX = 0;
         }
     }
 }
