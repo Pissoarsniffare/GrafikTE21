@@ -9,10 +9,15 @@ public class episkkod extends Canvas implements Runnable {
     private boolean running = false;
     private Thread thread;
 
-    private int paddelX = 250;
+    private int paddelX = 260;
     private int paddelY = 350;
 
     private int paddelVX = 0;
+
+    private int bollX = 290;
+    private int bollY = 330;
+
+    private int bollVX = 0;
 
     public episkkod() {
         setSize(600, 400);
@@ -47,7 +52,7 @@ public class episkkod extends Canvas implements Runnable {
         g.setColor(Color.BLUE);
         g.fillRect(paddelX, paddelY, 80, 10);
         g.setColor(Color.RED);
-        g.fillOval(280,330,20,20);
+        g.fillOval(bollX,bollY,20,20);
     }
 
 
@@ -55,6 +60,8 @@ public class episkkod extends Canvas implements Runnable {
         paddelX += paddelVX;
 
     }
+
+
 
 
     public static void main(String[] args) {
@@ -140,6 +147,7 @@ public class episkkod extends Canvas implements Runnable {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            if (e.getKeyChar())
             if (e.getKeyChar() == 'd') {
                 paddelVX = 5;
 
