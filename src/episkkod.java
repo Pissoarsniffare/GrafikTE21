@@ -9,6 +9,8 @@ public class episkkod extends Canvas implements Runnable {
     private boolean running = false;
     private Thread thread;
 
+    private int WIDTH = 600;
+    private int HEIGHT = 400;
     private int paddelX = 260;
     private int paddelY = 350;
 
@@ -19,8 +21,10 @@ public class episkkod extends Canvas implements Runnable {
 
     private int bollVX = 0;
 
+    private int bollVY = 0;
+
     public episkkod() {
-        setSize(600, 400);
+        setSize(WIDTH, HEIGHT);
         JFrame frame = new JFrame();
         frame.add(this);
         frame.addKeyListener(new MyKeyListener());
@@ -58,6 +62,19 @@ public class episkkod extends Canvas implements Runnable {
 
     private void update() {
         paddelX += paddelVX;
+        bollX += bollVX;
+        bollY += bollVY;
+        if (bollX < 0 || bollX > WIDTH) {
+            bollVX = -bollVX;
+        }
+
+        if (bollY < 0 || bollY > HEIGHT) {
+            bollVY = -bollVY;
+        }
+        if (bollY >= paddelY - 20 && bollY <= paddelY && bollX >= paddelX && bollX <= paddelX + 80) {
+            bollVY = -bollVY;
+        }
+
 
     }
 
@@ -147,13 +164,18 @@ public class episkkod extends Canvas implements Runnable {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            if (e.getKeyChar())
+            if (bollVX == 0) {
+                bollVX = -10;
+                bollVY = -10;
+            }
+
             if (e.getKeyChar() == 'd') {
-                paddelVX = 5;
+                paddelVX = 10;
+
 
             }
             if (e.getKeyChar() == 'a') {
-                paddelVX = -5;
+                paddelVX = -10;
             }
         }
 
