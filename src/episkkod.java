@@ -17,11 +17,15 @@ public class episkkod extends Canvas implements Runnable {
     private int paddelVX = 0;
 
     private int bollX = 290;
-    private int bollY = 330;
+    private int bollY = 340;
 
     private int bollVX = 0;
 
     private int bollVY = 0;
+
+    private int brickX = 290;
+
+    private int brickY = 30;
 
     public episkkod() {
         setSize(WIDTH, HEIGHT);
@@ -56,7 +60,9 @@ public class episkkod extends Canvas implements Runnable {
         g.setColor(Color.BLUE);
         g.fillRect(paddelX, paddelY, 80, 10);
         g.setColor(Color.RED);
-        g.fillOval(bollX,bollY,20,20);
+        g.fillOval(bollX,bollY,10,10);
+        g.setColor(Color.green);
+        g.fillRect(brickX,brickY,50,20);
     }
 
 
@@ -68,10 +74,15 @@ public class episkkod extends Canvas implements Runnable {
             bollVX = -bollVX;
         }
 
+        if (bollY <= brickY + 20 && bollY >= brickY && bollX >= brickX && bollX <= brickX + 40) {
+            bollVY = -bollVY;
+            brickY = -100;
+        }
+
         if (bollY < 0 || bollY > HEIGHT) {
             bollVY = -bollVY;
         }
-        if (bollY >= paddelY - 20 && bollY <= paddelY && bollX >= paddelX && bollX <= paddelX + 80) {
+        if (bollY >= paddelY - 10 && bollY <= paddelY && bollX >= paddelX && bollX <= paddelX + 80) {
             bollVY = -bollVY;
         }
 

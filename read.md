@@ -12,3 +12,5 @@ OCH
 
 LYCKADES FÅ DEN ATT BOUNCA PÅ VÄGGARNA OCH PADDELN LETS GOOOOOOOOOOO
 
+lek.5 Lyckades  göra en bricka som förstörs (snarare försvinner från skärmen) när bollen träffar den
+
